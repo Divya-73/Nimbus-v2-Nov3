@@ -3,15 +3,15 @@ services:
     image: alpine:3.22
     entrypoint: ["/bin/sh", "/generate-certs.sh"]
     environment:
-      NIMBUS_FQDN: "divya.systrome.com"
+      NIMBUS_FQDN: "nmscloud.systrome.com"
       # Comma-separated IPs; e.g. "10.0.0.10,172.16.0.62"
-      NIMBUS_PRIVATE_IPS: "172.16.0.238"
-      NIMBUS_PUBLIC_IPS: ""
-      OPENSEARCH_HOST: "172.16.0.238"
+      NIMBUS_PRIVATE_IPS: "172.16.0.62"
+      NIMBUS_PUBLIC_IPS: "122.160.82.93"
+      OPENSEARCH_HOST: "172.16.0.62"
       NIMBUS_COUNTRY: "IN"
       NIMBUS_STATE: "Haryana"
       NIMBUS_CITY: "Gurugram"
-      NIMBUS_COMPANY: "Divya"
+      NIMBUS_COMPANY: "Systrome"
       FORCE_REGEN_CERTS: "${FORCE_REGEN_CERTS:-false}"
     volumes:
       - ./opensearch/generate-certs.sh:/generate-certs.sh:ro
@@ -37,10 +37,10 @@ services:
       plugins.security.ssl.http.pemkey_filepath: generated-certs/node-key.pem
       plugins.security.ssl.http.pemtrustedcas_filepath: generated-certs/root-ca.pem
       plugins.security.allow_default_init_securityindex: "true"
-      plugins.security.nodes_dn: "CN=nimbus.systrome.com,OU=OpenSearch,O=Systrome,L=Gurugram,ST=Haryana,C=IN"
-      plugins.security.authcz.admin_dn: "CN=nimbus.systrome.com,OU=OpenSearch,O=Systrome,L=Gurugram,ST=Haryana,C=IN"
-      OPENSEARCH_INITIAL_ADMIN_PASSWORD: "Divyanimbus@026"
-      OPENSEARCH_PASSWORD: "Divyanimbus@026"
+      plugins.security.nodes_dn: "CN=nmscloud.systrome.com,OU=OpenSearch,O=Systrome,L=Gurugram,ST=Haryana,C=IN"
+      plugins.security.authcz.admin_dn: "CN=nmscloud.systrome.com,OU=OpenSearch,O=Systrome,L=Gurugram,ST=Haryana,C=IN"
+      OPENSEARCH_INITIAL_ADMIN_PASSWORD: "Nimbusnms@2026"
+      OPENSEARCH_PASSWORD: "Nimbusnms@2026"
     entrypoint: ["/bin/bash", "/opensearch-entrypoint.sh"]
     ulimits:
       memlock:
@@ -84,7 +84,7 @@ services:
     environment:
       OPENSEARCH_HOST: nimbus-node
       OPENSEARCH_USERNAME: "admin"
-      OPENSEARCH_PASSWORD: "nimbus@026"
+      OPENSEARCH_PASSWORD: "Nimbusnms@2026"
       OPENSEARCH_PORT: "9200"
       OPENSEARCH_PROTOCOL: https
       OPENSEARCH_SSL_REJECT_UNAUTHORIZED: "true"
@@ -93,7 +93,7 @@ services:
       MQTT_PORT: "8883"
       MQTT_PROTOCOL: "mqtts"
       MQTT_USERNAME: "nimbus"
-      MQTT_PASSWORD: "nimbus@2021"
+      MQTT_PASSWORD: "nimbus@2026"
     volumes:
       - /opt/ES:/opt/ES:ro
     ports:
@@ -125,14 +125,14 @@ services:
     user: "0:0"
     entrypoint: ["/bin/sh", "/generate-certs.sh"]
     environment:
-      NIMBUS_FQDN: "divya.systrome.com"
+      NIMBUS_FQDN: "nmscloud.systrome.com"
       # Keep these lists in sync with opensearch-cert-init above.
-      NIMBUS_PRIVATE_IPS: "172.16.0.238"
-      NIMBUS_PUBLIC_IPS: ""
-      MQTT_HOST: "divya.systrome.com"
+      NIMBUS_PRIVATE_IPS: "172.16.0.62"
+      NIMBUS_PUBLIC_IPS: "122.160.82.93"
+      MQTT_HOST: "nmscloud.systrome.com"
       MQTT_USERNAME: "nimbus"
-      MQTT_PASSWORD: "nimbus@2021"
-      NIMBUS_COMPANY: "Divya"
+      MQTT_PASSWORD: "nimbus@2026"
+      NIMBUS_COMPANY: "Systrome"
       FORCE_REGEN_CERTS: "${FORCE_REGEN_CERTS:-false}"
     volumes:
       - ./mqtt/generate-certs.sh:/generate-certs.sh:ro
