@@ -1,0 +1,333 @@
+/* Dashboard secondary panels — chart 40% / map 60% */
+
+.dash-panels {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 7fr);
+  gap: 0.65rem;
+  margin-top: 0.65rem;
+  align-items: stretch;
+}
+
+.dash-panels--three {
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.dash-panels--four {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.dash-panel--chart-center {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.dash-panel--chart-center .dash-panel__body {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 220px;
+  width: 100%;
+}
+
+.dash-panel--chart-center .dash-panel__body > div {
+  width: 100%;
+}
+
+.dash-panel--chart-center .dash-panel__chart--compact {
+  width: 100%;
+  max-width: 280px;
+  margin: 0 auto;
+}
+
+.dash-modal__card--devices {
+  width: min(860px, 100%);
+}
+
+.downtime-device-list {
+  max-height: min(420px, 60dvh);
+  overflow: auto;
+  margin-top: 0.35rem;
+  border: 1px solid var(--divider);
+  border-radius: 8px;
+}
+
+.downtime-device-list table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.72rem;
+}
+
+.downtime-device-list th,
+.downtime-device-list td {
+  text-align: left;
+  padding: 0.4rem 0.55rem;
+  border-bottom: 1px solid var(--divider);
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.downtime-device-list th {
+  position: sticky;
+  top: 0;
+  background: var(--surface-2);
+  color: var(--muted);
+  font-weight: 650;
+  z-index: 1;
+}
+
+.downtime-device-list tr:last-child td {
+  border-bottom: none;
+}
+
+/* legacy stacked bars removed — downtime uses ECharts horizontal bars */
+
+.dash-panel {
+  background: var(--surface-1);
+  border: 1px solid var(--divider);
+  border-radius: 9px;
+  padding: 0.55rem 0.65rem 0.45rem;
+  min-width: 0;
+}
+
+.dash-panel__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.dash-panel__title {
+  margin: 0;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.dash-panel__meta {
+  margin: 0.1rem 0 0;
+  font-size: 0.62rem;
+  color: var(--muted);
+}
+
+.dash-panel__head-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.3rem;
+}
+
+.dash-panel__icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  border: 1px solid var(--divider);
+  background: var(--surface-2);
+  color: var(--muted);
+  cursor: pointer;
+  padding: 0;
+}
+
+.dash-panel__icon-btn:hover:not(:disabled) {
+  background: var(--hover-bg);
+  color: var(--text);
+}
+
+.dash-panel__icon-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.dash-panel__empty,
+.dash-panel__error {
+  min-height: 160px;
+  display: grid;
+  place-items: center;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.dash-panel__error {
+  color: var(--danger-text, #b91c1c);
+  min-height: 0;
+  margin: 0 0 0.4rem;
+  place-items: start;
+}
+
+.dash-map-legend {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 18px;
+  padding: 0 0.35rem;
+  border-radius: 999px;
+  border: 1px solid var(--divider);
+  background: var(--surface-2);
+  color: var(--text);
+  font-size: 0.58rem;
+  font-weight: 650;
+  line-height: 1;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.dash-map-legend--link {
+  font: inherit;
+  font-size: 0.58rem;
+  font-weight: 650;
+  line-height: 1;
+  cursor: pointer;
+  appearance: none;
+  margin: 0;
+}
+
+.dash-map-legend--link:hover {
+  filter: brightness(0.96);
+}
+
+.dash-map-legend--up {
+  color: #16a34a;
+  border-color: rgba(34, 197, 94, 0.35);
+  background: rgba(34, 197, 94, 0.1);
+}
+.dash-map-legend--down {
+  color: #dc2626;
+  border-color: rgba(239, 68, 68, 0.35);
+  background: rgba(239, 68, 68, 0.1);
+}
+.dash-map-legend--onboard {
+  color: #9333ea;
+  border-color: rgba(168, 85, 247, 0.4);
+  background: rgba(168, 85, 247, 0.12);
+}
+
+.dash-map-popup {
+  font-size: 12px;
+  line-height: 1.45;
+  min-width: 200px;
+  max-width: 260px;
+}
+
+.dash-map-popup strong {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 13px;
+}
+
+.dash-map-popup__k {
+  display: inline-block;
+  min-width: 5.5rem;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.dash-map-popup__note {
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid #e2e8f0;
+  font-size: 11px;
+  color: #64748b;
+}
+
+.dash-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: grid;
+  place-items: center;
+  padding: 1.25rem;
+}
+
+.dash-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  border: none;
+  background: rgba(15, 23, 42, 0.35);
+  cursor: pointer;
+}
+
+.dash-modal__card {
+  position: relative;
+  z-index: 1;
+  width: min(720px, 100%);
+  max-height: calc(100dvh - 2.5rem);
+  overflow: auto;
+  background: var(--surface-1);
+  border: 1px solid var(--divider);
+  border-radius: 14px;
+  padding: 0.85rem 1rem 1rem;
+  box-shadow: var(--shadow-soft);
+}
+
+.dash-modal__card--map {
+  width: min(1100px, 100%);
+  overflow: visible;
+}
+
+.leaflet-container {
+  background: #dbeafe;
+  font: inherit;
+  border-radius: 8px;
+  z-index: 1;
+}
+
+.dash-modal .leaflet-pane,
+.dash-modal .leaflet-top,
+.dash-modal .leaflet-bottom {
+  z-index: auto;
+}
+
+.dash-modal .leaflet-popup-pane {
+  z-index: 800 !important;
+}
+
+.dash-map-hint {
+  margin: 0.45rem 0 0;
+  font-size: 0.7rem;
+  color: var(--muted);
+}
+
+.dash-map-detail {
+  margin-top: 0.5rem;
+  padding: 0.55rem 0.65rem;
+  border: 1px solid var(--divider);
+  border-radius: 8px;
+  background: var(--surface-2);
+}
+
+.dash-map-detail__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.dash-map-detail .dash-map-popup {
+  min-width: 0;
+  max-width: none;
+}
+
+@media (max-width: 1100px) {
+  .dash-panels,
+  .dash-panels--three,
+  .dash-panels--four {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1400px) {
+  .dash-panels--three {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .dash-panels--four {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

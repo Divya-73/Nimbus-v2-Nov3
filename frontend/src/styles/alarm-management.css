@@ -1,0 +1,71 @@
+/* Alarm Management dashboard: KPI strip + chart grid */
+
+.alarm-dash-kpis {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.65rem;
+  margin-top: 0.65rem;
+}
+
+.alarm-dash-kpi {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.75rem 0.9rem;
+  border-radius: 10px;
+  border: 1px solid var(--divider);
+  background: var(--surface-1);
+  box-shadow: var(--shadow-soft);
+}
+
+.alarm-dash-kpi__label {
+  font-size: 0.65rem;
+  font-weight: 650;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.alarm-dash-kpi__value {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.1;
+}
+
+.alarm-dash-kpi--crit .alarm-dash-kpi__value {
+  color: #ef4444;
+}
+
+.alarm-dash-kpi--warn .alarm-dash-kpi__value {
+  color: #f59e0b;
+}
+
+.alarm-dash-kpi--ok .alarm-dash-kpi__value {
+  color: #22c55e;
+}
+
+.alarm-dash-charts.dash-panels--three {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.alarm-dash-trend.dash-panels {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.alarm-mgmt-toolbar {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 960px) {
+  .alarm-dash-kpis {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .alarm-dash-charts.dash-panels--three {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

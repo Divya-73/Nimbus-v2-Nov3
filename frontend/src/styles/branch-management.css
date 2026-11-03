@@ -1,0 +1,99 @@
+/* Branch Management — extends org-management.css tokens */
+
+.bm-org-banner {
+  margin-bottom: 0;
+}
+
+.bm-org-banner__main {
+  min-width: 0;
+  width: 100%;
+}
+
+.bm-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0 0 0.45rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--accent-text, var(--accent));
+  font-size: 0.72rem;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.bm-back:hover {
+  text-decoration: underline;
+}
+
+.bm-org-id-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 0.55rem;
+}
+
+.bm-org-id {
+  max-width: 100%;
+  gap: 0.45rem;
+  padding: 0.28rem 0.5rem;
+  color: var(--text);
+  font-size: 0.72rem;
+}
+
+.bm-org-id__label {
+  flex-shrink: 0;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.62rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.bm-org-id__value {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-all;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-weight: 600;
+}
+
+.om-modal__card--wide {
+  width: min(720px, 100%);
+  max-height: min(88dvh, 900px);
+  overflow: auto;
+}
+
+.bm-bulk {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin-top: 0.85rem;
+}
+
+.bm-bulk__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.bm-bulk__results {
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--divider);
+  border-radius: 8px;
+  background: var(--surface-2);
+}
+
+.bm-bulk__errors {
+  margin: 0.35rem 0 0;
+  padding-left: 1.1rem;
+  font-size: 0.75rem;
+  color: var(--text);
+}
+
+.bm-bulk__errors li + li {
+  margin-top: 0.2rem;
+}

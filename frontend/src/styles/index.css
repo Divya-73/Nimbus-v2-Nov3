@@ -1,0 +1,107 @@
+@import "tailwindcss";
+@import "./themes.css";
+
+@theme {
+  --color-nimbus-navy: #071a35;
+  --color-nimbus-panel: #0b2447;
+  --color-nimbus-blue: #2563eb;
+  --color-nimbus-blue-deep: #1d4ed8;
+  --color-nimbus-muted: #94a3b8;
+  --color-nimbus-ink: #0f172a;
+  --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    margin: 0;
+    font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+    background: var(--bg-root, #ffffff);
+    color: var(--text, #0f172a);
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+/* Desktop density (~80% zoom feel) for dashboard + login */
+@media (min-width: 901px) {
+  html:has(.dash-root),
+  html:has(.login-root) {
+    font-size: 80%;
+  }
+}
+
+@keyframes nimbus-status {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.25);
+    opacity: 0.5;
+  }
+}
+
+@keyframes nimbus-link-flow {
+  to {
+    stroke-dashoffset: -34;
+  }
+}
+
+@keyframes nimbus-node-pulse {
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.75;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes nimbus-endpoint-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+.nimbus-status-dot {
+  animation: nimbus-status 2.2s ease-in-out infinite;
+}
+
+.nimbus-dot-texture {
+  background-image: radial-gradient(rgba(37, 99, 235, 0.12) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+.nimbus-link-flow {
+  animation: nimbus-link-flow 1.6s linear infinite;
+}
+
+.nimbus-node-pulse {
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: nimbus-node-pulse 2.8s ease-in-out infinite;
+}
+
+.nimbus-endpoint {
+  animation: nimbus-endpoint-float 3.6s ease-in-out infinite;
+}
+
+.nimbus-delay-2 {
+  animation-delay: 0.45s;
+}
+
+.nimbus-delay-3 {
+  animation-delay: 0.7s;
+}

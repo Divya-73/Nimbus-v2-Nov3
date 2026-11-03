@@ -1,0 +1,29 @@
+{
+  "name": "vfs-sdwan-backend",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node src/App.js",
+    "dev": "node --watch src/App.js",
+    "opensearch:ping": "node -e \"import { client } from './opensearch/client.js'; const r = await client.cluster.health(); console.log(r.body || r); process.exit(0);\""
+  },
+  "dependencies": {
+    "@opensearch-project/opensearch": "^3.5.1",
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.6",
+    "dotenv": "^16.4.7",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.6.1",
+    "helmet": "^8.3.0",
+    "jsonwebtoken": "^9.0.3",
+    "morgan": "^1.11.0",
+    "mqtt": "^5.14.1",
+    "ssh2": "^1.17.0",
+    "uuid": "^14.0.1",
+    "ws": "^8.21.3"
+  }
+}

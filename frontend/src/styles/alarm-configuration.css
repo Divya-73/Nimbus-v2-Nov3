@@ -1,0 +1,350 @@
+/* Alarm Configuration — scoped extras on dash / dl / tpl tokens */
+
+.ac-list-table {
+  min-width: 48rem;
+}
+
+.dl-gui-modal__card.ac-modal {
+  display: flex;
+  flex-direction: column;
+  width: min(980px, calc(100% - 2rem));
+  max-height: min(calc(100dvh - 2rem), 1100px);
+  overflow: hidden;
+}
+
+.dl-gui-modal__card.ac-modal--picker {
+  width: min(1200px, calc(100% - 2rem));
+}
+
+.ac-form {
+  flex: 1;
+  min-height: 0;
+  align-content: start;
+  overflow: auto;
+  padding-right: 0.15rem;
+}
+
+.ac-form .om-form__actions {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  margin: 0.45rem 0 0;
+  padding: 0.7rem 0 0.2rem;
+  background: var(--surface-1);
+  border-top: 1px solid var(--divider);
+}
+
+.ac-enable-field {
+  min-height: 2.65rem;
+}
+
+.ac-enable-row {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  height: 2.15rem;
+}
+
+.ac-enable-label {
+  font-size: 0.78rem;
+  font-weight: 650;
+  color: var(--text);
+}
+
+.ac-switch {
+  position: relative;
+  display: inline-flex;
+  width: 2.15rem;
+  height: 1.2rem;
+  margin: 0;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.ac-switch input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  margin: 0;
+  cursor: inherit;
+}
+
+.ac-switch__track {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--muted) 35%, var(--surface-2));
+  border: 1px solid var(--divider);
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.ac-switch__track::after {
+  content: '';
+  position: absolute;
+  top: 0.12rem;
+  left: 0.12rem;
+  width: 0.88rem;
+  height: 0.88rem;
+  border-radius: 50%;
+  background: var(--surface-1);
+  box-shadow: 0 1px 2px color-mix(in srgb, #000 18%, transparent);
+  transition: transform 0.15s ease;
+}
+
+.ac-switch input:checked + .ac-switch__track {
+  background: color-mix(in srgb, var(--accent) 78%, #16a34a);
+  border-color: transparent;
+}
+
+.ac-switch input:checked + .ac-switch__track::after {
+  transform: translateX(0.92rem);
+}
+
+.ac-switch:has(input:disabled) {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ac-device-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.55rem;
+  margin-bottom: 0.35rem;
+}
+
+.ac-device-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  justify-content: flex-end;
+}
+
+.ac-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.ac-picker__toolbar {
+  display: grid;
+  grid-template-columns: minmax(12rem, 1.5fr) minmax(8rem, 0.8fr);
+  gap: 0.55rem 0.65rem;
+}
+
+.ac-picker__toolbar--org {
+  grid-template-columns: minmax(12rem, 1.4fr) repeat(2, minmax(8rem, 0.85fr));
+}
+
+.ac-picker__hint {
+  margin: 0;
+}
+
+.ac-picker__split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(16rem, 0.85fr);
+  gap: 0.7rem;
+  align-items: stretch;
+}
+
+.ac-picker__pane {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  padding: 0.55rem 0.6rem 0.45rem;
+  border: 1px solid var(--divider);
+  border-radius: 10px;
+  background: var(--surface-1);
+}
+
+.ac-picker__table {
+  flex: 1;
+  min-height: 10rem;
+  max-height: min(28dvh, 240px);
+  border: 1px solid var(--divider);
+  border-radius: 8px;
+}
+
+.ac-picker__table .dl-table tbody tr {
+  cursor: pointer;
+}
+
+.ac-picker__pane .dl-pagination {
+  margin-top: 0.4rem;
+}
+
+.ac-selected-list {
+  list-style: none;
+  margin: 0;
+  padding: 0.15rem;
+}
+
+.ac-selected-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.45rem;
+  padding: 0.42rem 0.45rem;
+  border-bottom: 1px solid var(--divider);
+}
+
+.ac-selected-list li:last-child {
+  border-bottom: 0;
+}
+
+.ac-device-option__name {
+  font-size: 0.78rem;
+  font-weight: 650;
+  color: var(--text);
+}
+
+.ac-device-option__meta {
+  font-size: 0.68rem;
+  color: var(--muted);
+}
+
+.ac-tabs-wrap {
+  margin-top: 0.35rem;
+}
+
+.ac-card {
+  padding: 0.75rem 0.85rem;
+  border: 1px solid var(--divider);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--surface-2) 70%, transparent);
+}
+
+.ac-card__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.7rem;
+}
+
+.ac-card__title {
+  margin: 0;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.ac-card__sub {
+  margin: 0.15rem 0 0;
+  font-size: 0.74rem;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.ac-fields {
+  display: grid;
+  gap: 0.55rem 0.65rem;
+}
+
+.ac-fields--2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.ac-fields--4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: 0.55rem;
+}
+
+.ac-fields--4:first-of-type {
+  margin-top: 0;
+}
+
+.ac-lte-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin-top: 0.7rem;
+}
+
+.ac-lte-row {
+  display: grid;
+  grid-template-columns: 5.5rem repeat(3, minmax(0, 1fr));
+  gap: 0.55rem 0.65rem;
+  align-items: end;
+  padding: 0.55rem 0.6rem;
+  border-radius: 8px;
+  border: 1px solid var(--divider);
+  background: var(--surface-1);
+}
+
+.ac-lte-row__label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.35rem;
+  min-height: 2.15rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.ac-notify-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.ac-notify-field__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.45rem;
+}
+
+.ac-notify-field input {
+  height: 2.15rem;
+  padding: 0 0.65rem;
+  border-radius: 8px;
+  border: 1px solid var(--divider);
+  background: var(--surface-1);
+  color: var(--text);
+  font: inherit;
+}
+
+.ac-notify-field input:focus {
+  outline: 2px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  outline-offset: 1px;
+}
+
+.ac-notify-field input:disabled {
+  opacity: 0.55;
+}
+
+@media (max-width: 960px) {
+  .ac-picker__split,
+  .ac-picker__toolbar,
+  .ac-picker__toolbar--org {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 840px) {
+  .ac-fields--4,
+  .ac-lte-row {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .ac-lte-row__label {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 640px) {
+  .ac-fields--2,
+  .ac-fields--4,
+  .ac-lte-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ac-device-head {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

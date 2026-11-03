@@ -1,0 +1,52 @@
+/* Group Config — scoped extras only */
+
+.gc-list-table {
+  min-width: 64rem;
+}
+
+.gc-device-scroll {
+  max-height: min(32dvh, 280px);
+  margin-top: 0.45rem;
+}
+
+.gc-option-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.85rem;
+  height: 2rem;
+}
+
+.gc-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--text);
+  cursor: pointer;
+  user-select: none;
+}
+
+.gc-check input {
+  width: 0.85rem;
+  height: 0.85rem;
+  margin: 0;
+  flex-shrink: 0;
+  accent-color: var(--accent-text, var(--accent));
+}
+
+.gc-check:has(input:disabled) {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.gc-device-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.55rem;
+  margin-bottom: 0.15rem;
+}

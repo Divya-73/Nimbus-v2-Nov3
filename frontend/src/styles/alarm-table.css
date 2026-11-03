@@ -1,0 +1,291 @@
+/* Alarm logs table — theme-aware dashboard panel */
+
+.alarm-table-panel {
+  margin-top: 0.65rem;
+}
+
+.alarm-table-panel .dash-panel__head {
+  margin-bottom: 0.45rem;
+  align-items: center;
+}
+
+.alarm-export-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.4rem;
+  flex-shrink: 0;
+}
+
+.alarm-export-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  height: 1.95rem;
+  padding: 0 0.7rem;
+  border-radius: 7px;
+  border: 1px solid transparent;
+  font-size: 0.72rem;
+  font-weight: 650;
+  cursor: pointer;
+  white-space: nowrap;
+  color: #fff;
+  box-shadow: var(--shadow-soft);
+}
+
+.alarm-export-btn--excel {
+  background: var(--accent);
+  border-color: var(--accent-border);
+  color: #fff;
+}
+
+/* Grey theme accent is near-white — use dark label for contrast */
+.theme-grey .alarm-export-btn--excel,
+.dash-root.theme-grey .alarm-export-btn--excel {
+  background: #f4f4f5;
+  border-color: rgba(244, 244, 245, 0.5);
+  color: #18181b;
+}
+
+.theme-light .alarm-export-btn--excel,
+.dash-root.theme-light .alarm-export-btn--excel {
+  background: var(--accent);
+  color: #ffffff;
+}
+
+.theme-dark .alarm-export-btn--excel,
+.dash-root.theme-dark .alarm-export-btn--excel {
+  background: var(--accent);
+  color: #ffffff;
+}
+
+.alarm-export-btn--pdf {
+  background: transparent;
+  border-color: var(--accent-border);
+  color: var(--accent-text);
+  box-shadow: none;
+}
+
+.theme-grey .alarm-export-btn--pdf,
+.dash-root.theme-grey .alarm-export-btn--pdf {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(244, 244, 245, 0.35);
+  color: #fafafa;
+}
+
+.alarm-export-btn:hover:not(:disabled) {
+  filter: brightness(1.08);
+}
+
+.alarm-export-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  filter: none;
+}
+
+.alarm-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.55rem;
+}
+
+.alarm-filters__select,
+.alarm-filters__btn {
+  font-size: 0.72rem;
+  height: 1.85rem;
+  border-radius: 6px;
+  border: 1px solid var(--divider);
+  background: var(--surface-2);
+  color: var(--text);
+  padding: 0 0.55rem;
+}
+
+.alarm-filters__btn {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.alarm-filters__btn:hover:not(:disabled) {
+  background: var(--hover-bg);
+}
+
+.alarm-filters__btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.alarm-table-scroll {
+  overflow: auto;
+  max-height: min(420px, 55dvh);
+  border: 1px solid var(--divider);
+  border-radius: 8px;
+  background: var(--surface-1);
+}
+
+.alarm-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.72rem;
+  white-space: nowrap;
+}
+
+.alarm-table th,
+.alarm-table td {
+  text-align: left;
+  padding: 0.45rem 0.55rem;
+  border-bottom: 1px solid var(--divider);
+  color: var(--text);
+  vertical-align: middle;
+}
+
+.alarm-table th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--surface-2);
+  color: var(--muted);
+  font-weight: 650;
+}
+
+.alarm-table tr:last-child td {
+  border-bottom: none;
+}
+
+.alarm-table .detail-cell {
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  min-width: 16rem;
+  max-width: 36rem;
+  line-height: 1.45;
+  vertical-align: top;
+}
+
+.alarm-table th.dl-th-actions,
+.alarm-table td.dl-th-actions {
+  position: sticky;
+  right: 0;
+  width: 2.6rem;
+  min-width: 2.6rem;
+  text-align: center;
+  background: var(--surface-1);
+  box-shadow: -6px 0 8px -8px color-mix(in srgb, #000 22%, transparent);
+}
+
+.alarm-table th.dl-th-actions {
+  top: 0;
+  z-index: 2;
+  background: var(--surface-2);
+}
+
+.severity-pill,
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  font-size: 0.65rem;
+  font-weight: 650;
+  border: 1px solid var(--divider);
+  background: var(--surface-2);
+}
+
+.severity-critical {
+  color: #b91c1c;
+  border-color: rgba(239, 68, 68, 0.35);
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.theme-grey .severity-critical,
+.dash-root.theme-grey .severity-critical,
+.theme-dark .severity-critical,
+.dash-root.theme-dark .severity-critical {
+  color: #fca5a5;
+}
+
+.severity-warning {
+  color: #b45309;
+  border-color: rgba(245, 158, 11, 0.4);
+  background: rgba(245, 158, 11, 0.12);
+}
+
+.theme-grey .severity-warning,
+.dash-root.theme-grey .severity-warning,
+.theme-dark .severity-warning,
+.dash-root.theme-dark .severity-warning {
+  color: #fcd34d;
+}
+
+.severity-cleared {
+  color: #15803d;
+  border-color: rgba(34, 197, 94, 0.35);
+  background: rgba(34, 197, 94, 0.1);
+}
+
+.theme-grey .severity-cleared,
+.dash-root.theme-grey .severity-cleared,
+.theme-dark .severity-cleared,
+.dash-root.theme-dark .severity-cleared {
+  color: #86efac;
+}
+
+.status-open {
+  color: #1d4ed8;
+  border-color: rgba(59, 130, 246, 0.35);
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.theme-grey .status-open,
+.dash-root.theme-grey .status-open,
+.theme-dark .status-open,
+.dash-root.theme-dark .status-open {
+  color: #93c5fd;
+}
+
+.status-closed {
+  color: #475569;
+  border-color: rgba(100, 116, 139, 0.35);
+  background: rgba(148, 163, 184, 0.12);
+}
+
+.theme-grey .status-closed,
+.dash-root.theme-grey .status-closed,
+.theme-dark .status-closed,
+.dash-root.theme-dark .status-closed {
+  color: #cbd5e1;
+}
+
+.alarm-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+  font-size: 0.7rem;
+  color: var(--muted);
+}
+
+.alarm-pagination__btns {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.alarm-error {
+  margin: 0 0 0.45rem;
+  font-size: 0.75rem;
+  color: var(--danger-text, #b91c1c);
+}
+
+.alarm-loading,
+.alarm-empty {
+  min-height: 120px;
+  display: grid;
+  place-items: center;
+  font-size: 0.8rem;
+  color: var(--muted);
+}

@@ -1,0 +1,86 @@
+/* Footer — theme-continuous via CSS tokens */
+
+.app-footer {
+  position: fixed;
+  bottom: 0;
+  left: var(--shell-sidebar, 260px);
+  right: 0;
+  z-index: 25;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 6px 14px;
+  height: var(--shell-footer, 40px);
+  box-sizing: border-box;
+  width: calc(100% - var(--shell-sidebar, 260px));
+  background: var(--bg-top);
+  border-top: 1px solid var(--divider);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.06);
+  transition: left 220ms ease, width 220ms ease, background 300ms ease, border-color 300ms ease;
+}
+
+.dash-root.sidebar-closed .app-footer {
+  left: 0;
+  width: 100%;
+}
+
+.footer-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.footer-text {
+  margin: 0;
+  font-size: 0.8rem;
+  letter-spacing: 0.3px;
+  color: var(--muted);
+  font-weight: 600;
+  text-align: center;
+}
+
+.footer-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.footer-link {
+  font-size: 0.8rem;
+  color: var(--accent-text);
+  text-decoration: none;
+  transition: color 160ms ease;
+}
+
+.footer-link:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.footer-divider {
+  color: var(--divider);
+  font-size: 0.8rem;
+}
+
+.dash-content {
+  padding-bottom: 70px;
+}
+
+@media (max-width: 768px) {
+  .app-footer {
+    left: 0;
+    width: 100%;
+    height: 48px;
+    padding: 0 12px;
+  }
+
+  .footer-text {
+    font-size: 0.75rem;
+  }
+
+  .dash-content {
+    padding-bottom: 120px;
+  }
+}

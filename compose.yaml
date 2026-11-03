@@ -1,0 +1,173 @@
+services:
+  opensearch-cert-init:
+    image: alpine:3.22
+    entrypoint: ["/bin/sh", "/generate-certs.sh"]
+    environment:
+      NIMBUS_FQDN: "divya.systrome.com"
+      # Comma-separated IPs; e.g. "10.0.0.10,172.16.0.62"
+      NIMBUS_PRIVATE_IPS: "172.16.0.238"
+      NIMBUS_PUBLIC_IPS: ""
+      OPENSEARCH_HOST: "172.16.0.238"
+      NIMBUS_COUNTRY: "IN"
+      NIMBUS_STATE: "Haryana"
+      NIMBUS_CITY: "Gurugram"
+      NIMBUS_COMPANY: "Divya"
+      FORCE_REGEN_CERTS: "${FORCE_REGEN_CERTS:-false}"
+    volumes:
+      - ./opensearch/generate-certs.sh:/generate-certs.sh:ro
+      - opensearch-certs:/certs
+      - /opt/ES:/export
+    restart: "no"
+
+  opensearch:
+    image: opensearchproject/opensearch:3.5.0
+    container_name: opensearch-node
+    environment:
+      discovery.type: single-node
+      cluster.name: nimbus-cluster
+      node.name: nimbus-node
+      network.host: 0.0.0.0
+      bootstrap.memory_lock: "true"
+      OPENSEARCH_JAVA_OPTS: -Xms1g -Xmx1g
+      plugins.security.ssl.transport.pemcert_filepath: generated-certs/node.pem
+      plugins.security.ssl.transport.pemkey_filepath: generated-certs/node-key.pem
+      plugins.security.ssl.transport.pemtrustedcas_filepath: generated-certs/root-ca.pem
+      plugins.security.ssl.http.enabled: "true"
+      plugins.security.ssl.http.pemcert_filepath: generated-certs/node.pem
+      plugins.security.ssl.http.pemkey_filepath: generated-certs/node-key.pem
+      plugins.security.ssl.http.pemtrustedcas_filepath: generated-certs/root-ca.pem
+      plugins.security.allow_default_init_securityindex: "true"
+      plugins.security.nodes_dn: "CN=nimbus.systrome.com,OU=OpenSearch,O=Systrome,L=Gurugram,ST=Haryana,C=IN"
+      plugins.security.authcz.admin_dn: "CN=nimbus.systrome.com,OU=OpenSearch,O=Systrome,L=Gurugram,ST=Haryana,C=IN"
+      OPENSEARCH_INITIAL_ADMIN_PASSWORD: "Divyanimbus@026"
+      OPENSEARCH_PASSWORD: "Divyanimbus@026"
+    entrypoint: ["/bin/bash", "/opensearch-entrypoint.sh"]
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    volumes:
+      - opensearch-data:/usr/share/opensearch/data
+      - opensearch-certs:/usr/share/opensearch/config/generated-certs:ro
+      - ./opensearch/entrypoint.sh:/opensearch-entrypoint.sh:ro
+    ports:
+      - "9200:9200"
+    networks:
+      default:
+        aliases:
+          - nimbus-node
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - >-
+          curl --silent --fail --cacert /usr/share/opensearch/config/generated-certs/root-ca.pem
+          --user "admin:$${OPENSEARCH_INITIAL_ADMIN_PASSWORD}"
+          https://localhost:9200/_cluster/health >/dev/null
+      interval: 20s
+      timeout: 10s
+      retries: 12
+      start_period: 90s
+    restart: unless-stopped
+    depends_on:
+      opensearch-cert-init:
+        condition: service_completed_successfully
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    env_file:
+      - ./backend/.env
+    environment:
+      OPENSEARCH_HOST: nimbus-node
+      OPENSEARCH_USERNAME: "admin"
+      OPENSEARCH_PASSWORD: "nimbus@026"
+      OPENSEARCH_PORT: "9200"
+      OPENSEARCH_PROTOCOL: https
+      OPENSEARCH_SSL_REJECT_UNAUTHORIZED: "true"
+      MQTT_CA: /opt/ES/ahNMC.crt
+      MQTT_HOST: mosquitto
+      MQTT_PORT: "8883"
+      MQTT_PROTOCOL: "mqtts"
+      MQTT_USERNAME: "nimbus"
+      MQTT_PASSWORD: "nimbus@2021"
+    volumes:
+      - /opt/ES:/opt/ES:ro
+    ports:
+      - "3005:3005"
+    depends_on:
+      opensearch:
+        condition: service_healthy
+      mosquitto:
+        condition: service_started
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - ln -sf /opt/ES/ahES.crt /app/cert/ahES.crt && exec npm start
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    env_file:
+      - ./frontend/.env
+    ports:
+      - "5005:5005"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  mqtt-cert-init:
+    image: alpine:3.22
+    user: "0:0"
+    entrypoint: ["/bin/sh", "/generate-certs.sh"]
+    environment:
+      NIMBUS_FQDN: "divya.systrome.com"
+      # Keep these lists in sync with opensearch-cert-init above.
+      NIMBUS_PRIVATE_IPS: "172.16.0.238"
+      NIMBUS_PUBLIC_IPS: ""
+      MQTT_HOST: "divya.systrome.com"
+      MQTT_USERNAME: "nimbus"
+      MQTT_PASSWORD: "nimbus@2021"
+      NIMBUS_COMPANY: "Divya"
+      FORCE_REGEN_CERTS: "${FORCE_REGEN_CERTS:-false}"
+    volumes:
+      - ./mqtt/generate-certs.sh:/generate-certs.sh:ro
+      - mqtt-certs:/mqtt-certs
+      - /etc/mosquitto/certs/nimbus:/export-mqtt
+      - /opt/ES:/export-es
+    restart: "no"
+
+  mosquitto:
+    image: eclipse-mosquitto:2.0.22
+    depends_on:
+      mqtt-cert-init:
+        condition: service_completed_successfully
+    volumes:
+      - ./mqtt/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+      - /etc/mosquitto/certs/nimbus:/mosquitto/certs:ro
+      - mosquitto-data:/mosquitto/data
+    ports:
+      - "8883:8883"
+    restart: unless-stopped
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.17.29
+    profiles: [ingestion]
+    environment:
+      LS_JAVA_OPTS: -Xms512m -Xmx512m
+    volumes:
+      - /etc/logstash/conf.d:/usr/share/logstash/pipeline:ro
+    ports:
+      - "5044:5044"
+    restart: unless-stopped
+
+volumes:
+  opensearch-data:
+    name: opensearch_opensearch-data
+  opensearch-certs:
+  mqtt-certs:
+  mosquitto-data:
