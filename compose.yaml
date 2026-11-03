@@ -88,7 +88,7 @@ services:
       OPENSEARCH_PORT: "9200"
       OPENSEARCH_PROTOCOL: https
       OPENSEARCH_SSL_REJECT_UNAUTHORIZED: "true"
-      MQTT_CA: /opt/ES/ahNMC.crt
+      MQTT_CA: /app/cert/ahNMC.crt
       MQTT_HOST: mosquitto
       MQTT_PORT: "8883"
       MQTT_PROTOCOL: "mqtts"
@@ -96,6 +96,7 @@ services:
       MQTT_PASSWORD: "nimbus@2026"
     volumes:
       - /opt/ES:/opt/ES:ro
+      - ./backend/cert:/app/cert:ro
     ports:
       - "3005:3005"
     depends_on:
@@ -103,9 +104,8 @@ services:
         condition: service_healthy
       mosquitto:
         condition: service_started
-    entrypoint: ["/bin/sh", "-c"]
-    command:
-      - ln -sf /opt/ES/ahES.crt /app/cert/ahES.crt && exec npm start
+      backend-cert-init:
+        condition: service_completed_successfully
     restart: unless-stopped
 
   frontend:
@@ -125,20 +125,40 @@ services:
     user: "0:0"
     entrypoint: ["/bin/sh", "/generate-certs.sh"]
     environment:
-      NIMBUS_FQDN: "nmscloud.systrome.com"
+      NIMBUS_FQDN: "divya.systrome.com"
       # Keep these lists in sync with opensearch-cert-init above.
-      NIMBUS_PRIVATE_IPS: "172.16.0.62"
-      NIMBUS_PUBLIC_IPS: "122.160.82.93"
-      MQTT_HOST: "nmscloud.systrome.com"
+      NIMBUS_PRIVATE_IPS: "172.16.0.238"
+      NIMBUS_PUBLIC_IPS: ""
+      MQTT_HOST: "divya.systrome.com"
       MQTT_USERNAME: "nimbus"
-      MQTT_PASSWORD: "nimbus@2026"
-      NIMBUS_COMPANY: "Systrome"
+      MQTT_PASSWORD: "nimbus@2021"
+      NIMBUS_COMPANY: "Divya"
       FORCE_REGEN_CERTS: "${FORCE_REGEN_CERTS:-false}"
     volumes:
       - ./mqtt/generate-certs.sh:/generate-certs.sh:ro
       - mqtt-certs:/mqtt-certs
       - /etc/mosquitto/certs/nimbus:/export-mqtt
       - /opt/ES:/export-es
+    restart: "no"
+
+  backend-cert-init:
+    image: alpine:3.22
+    entrypoint: ["/bin/sh", "/generate-certs.sh"]
+    environment:
+      NIMBUS_FQDN: "nmscloud.systrome.com"
+      NIMBUS_PRIVATE_IPS: "172.16.0.62"
+      NIMBUS_PUBLIC_IPS: "122.160.82.93"
+      NIMBUS_COMPANY: "Systrome"
+      FORCE_REGEN_CERTS: "${FORCE_REGEN_CERTS:-false}"
+    volumes:
+      - ./backend/generate-certs.sh:/generate-certs.sh:ro
+      - ./backend/cert:/backend-cert
+      - /opt/ES:/opt-es:ro
+    depends_on:
+      opensearch-cert-init:
+        condition: service_completed_successfully
+      mqtt-cert-init:
+        condition: service_completed_successfully
     restart: "no"
 
   mosquitto:
